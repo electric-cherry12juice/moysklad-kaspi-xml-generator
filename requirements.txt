@@ -1,5 +1,8 @@
 fastapi
-uvicorn[standard]
+uvicorn
 celery
+redis
 requests
 python-dotenv
+eventlet
+jinja2
