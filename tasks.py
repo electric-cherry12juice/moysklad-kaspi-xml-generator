@@ -53,7 +53,7 @@ def get_assortment():
             else:
                 product.update({"stock" : str(int(item['stock']))})
 
-            if int(product["stock"]) > 0:
+            if (int(product["stock"]) > 0) and (int(product["price"]) > 10):
                 products.append(product)
 
     return products
