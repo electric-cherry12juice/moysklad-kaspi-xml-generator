@@ -130,3 +130,31 @@ async def serve_kaspi_xml():
         media_type="application/xml",
         filename="kaspi_catalog.xml",
     )
+
+
+
+@app.get("/debug-xml")
+async def debug_xml():
+    if not os.path.exists(XML_PATH):
+        return {"error": "Файл не существует"}
+
+    file_size = os.path.getsize(XML_PATH)
+
+    with open(XML_PATH, "rb") as f:
+        raw_bytes = f.read(2000)
+
+    hex_start = raw_bytes[:20].hex()
+
+    try:
+        text_content = raw_bytes.decode("utf-8")
+        encoding_ok = True
+    except UnicodeDecodeError as e:
+        text_content = f"ОШИБКА ДЕКОДИРОВАНИЯ UTF-8: {e}"
+        encoding_ok = False
+
+    return {
+        "file_size_bytes": file_size,
+        "encoding_utf8_ok": encoding_ok,
+        "first_20_bytes_hex": hex_start,
+        "first_2000_chars": text_content,
+    }
