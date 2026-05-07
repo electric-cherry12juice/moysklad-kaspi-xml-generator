@@ -1,0 +1,5 @@
+fastapi
+uvicorn[standard]
+celery
+requests
+python-dotenv

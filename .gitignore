@@ -1,0 +1,4 @@
+.env
+__pycache__/
+*.pyc
+static/kaspi_catalog.xml
