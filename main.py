@@ -53,9 +53,7 @@ async def index(request: Request):
 
 @app.post("/run-task")
 async def run_task(_: None = Security(verify_api_key)):
-    """
-    Запускает генерацию XML в фоновом потоке.
-    """
+
     task_id = str(uuid.uuid4())
     task_store[task_id] = {"status": "PENDING", "result": None}
     logger.info(f"Новая задача создана: task_id={task_id}")
