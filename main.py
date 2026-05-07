@@ -90,6 +90,28 @@ async def get_status(task_id: str):
     }
 
 
+@app.on_event("startup")
+async def startup_check():
+    
+    vars_to_check = [
+        "MS_CREDENTIALS", "MS_COMPANY", "MS_MERCHANT_ID",
+        "MS_FILTER", "MS_STORE_ID", "MS_BRAND"
+    ]
+    logger.info("=== ПРОВЕРКА ПЕРЕМЕННЫХ ОКРУЖЕНИЯ ===")
+    for var in vars_to_check:
+        value = os.getenv(var)
+        if value is None:
+            logger.error(f"  {var} = НЕ ЗАДАНА!")
+        elif value == var:
+            logger.error(f"  {var} = '{value}'  ← ЗНАЧЕНИЕ СОВПАДАЕТ С ИМЕНЕМ ПЕРЕМЕННОЙ!")
+        elif value == "":
+            logger.error(f"  {var} = ПУСТАЯ СТРОКА!")
+        else:
+            
+            masked = value[:4] + "***" if len(value) > 4 else "***"
+            logger.info(f"  {var} = {masked} (длина: {len(value)})")
+    logger.info("=====================================")
+
 @app.get("/kaspi.xml")
 async def serve_kaspi_xml():
 
